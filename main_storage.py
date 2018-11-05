@@ -21,20 +21,14 @@ class Blog(db.Model):
     post_id = db.Column(db.Integer, primary_key=True)
     post_title = db.Column(db.String(120))
     post_body = db.Column(db.String(120))
-     = datetime.utcnow()
     post_date = db.Column(db.DateTime)
 
     def __init__(self, name):
         self.name = name
 
 
-#@app.route('/', methods=['POST', 'GET'])
-@app.route('/',)
+@app.route('/', methods=['POST', 'GET'])
 def index():
-    template = jinja_env.get_template("blog.html")
-    return template.render()
-
-@app.route('/',)
 
     if request.method == 'POST':
         post_name = request.form['post']
@@ -47,10 +41,13 @@ def index():
     return render_template('posts.html',title="Get It Done!", 
         posts=posts, completed_posts=completed_posts)
 
-
+    <form action="https://duckduckgo.com" method="get">
+        <label for="search-term">Search term:</label>
+        <input id="search-term" type="text" name="q" />
+        <input type="submit" />
+    </form>
 
 # TODO The /blog route displays all the blog posts.
-
 
 # TODO You're able to submit a new post at the /newpost route. 
 # After submitting a new post, your app displays the main blog page.
