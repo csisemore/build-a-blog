@@ -1,18 +1,42 @@
 #testing push crap from home.
 from flask import request
-
+from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://build-a-blog:homer@localhost:8889/build-a-blog'
 app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
 
-class Task(db.Model):
+class Blog(db.Model):
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120))
+    post_id = db.Column(db.Integer, primary_key=True)
+    post_title = db.Column(db.String(120))
+    post_body = db.Column(db.String(120))
+    post_date = db.Column(db.DateTime)
 
     def __init__(self, name):
         self.name = name
+
+
+@app.route('/', methods=['POST', 'GET'])
+def index():
+
+    if request.method == 'POST':
+        post_name = request.form['post']
+        new_post = Post(post_name)
+        db.session.add(new_post)
+        db.session.commit()
+
+    posts = Post.query.filter_by(completed=False).all()
+    completed_tasks = Post.query.filter_by(completed=True).all()
+    return render_template('posts.html',title="Get It Done!", 
+        posts=posts, completed_posts=completed_posts)
+
+        <form action="https://duckduckgo.com" method="get">
+            <label for="search-term">Search term:</label>
+            <input id="search-term" type="text" name="q" />
+            <input type="submit" />
+        </form>
 
 # TODO The /blog route displays all the blog posts.
 
@@ -44,6 +68,7 @@ class Task(db.Model):
 
 # TODO Bonus Missions 
 # 1. Add a CSS stylesheet to improve the style of your app. You can read about how to do so here.
+
 # 2. Display the posts in order of most recent to the oldest (the opposite of the current order). 
 # You can either use the id property that has been created using auto-incrementing, 
 # or - a more sophisticated method - you can add a DateTime property to the Blog class 
