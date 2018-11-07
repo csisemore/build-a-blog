@@ -1,42 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Get It Done!</h1>
-    <form method='post'>
-        <label>
-            New Post:
-            <input type="text" name='post' />
-        </label>
-        <input type="submit" value='Add Post' />
+    <h1>Blog Posts</h1>
+    <form method='GET'>
+    <!--    <label>
+            Existing Posts:
+        </label>   -->
+            <ul>
+                {% for post in posts %}
+               <!-- <li>{{post.name}}-->
+                    <li>{{post_title}}
+                    <!-- <form method="POST" action="/delete-task" style="display:inline-block;">-->
+                        <form method = "GET"></form>
+                        <input type="hidden" name="post_id" value="{{post_id}}" />
+                       <!-- <input type="submit" value="Done!" />-->
+                    </form>
+                </li>
+                {% endfor %}
+            </ul>
+
+        
+        <!--<input type="submit" value='Add Post' />-->
     </form>
-
-    <hr />
-
-    {% if posts|length == 0 %}
-    <p>No posts yet</p>
-    {% else %}
-
-        <ul>
-            {% for post in posts %}
-            <li>{{post.name}}
-                <form method="POST" action="/delete-task" style="display:inline-block;">
-                    <input type="hidden" name="post_id" value="{{post.id}}" />
-                    <input type="submit" value="Done!" />
-                </form>
-            </li>
-            {% endfor %}
-        </ul>
-
-    {% endif %}
-
-    <hr />
-
-    <h2>Completed</h2>
-
-    <ul>
-        {% for task in completed_tasks %}
-        <li>{{task.name}}</li>
-        {% endfor %}
-    </ul>
-
 {% endblock %}

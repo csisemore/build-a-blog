@@ -9,12 +9,14 @@
         <label for="post_body">
             Post Body:<input id="post_body" type="text" value="{{post_body}}">
         </label>
+        <input type="hidden" name="post_id" value="{{post_id}}" />
         <input type="submit" value='Add Post' />
+        
+        <!-- <input type="submit" value="Done!" /> --->
     </form>
-
     <hr />
-
-    {% if posts|length == 0 %}
+    
+   <!-- {% if posts|length == 0 %}
     <p>No posts yet</p>
     {% else %}
 
@@ -39,6 +41,6 @@
         {% for task in completed_tasks %}
         <li>{{task.name}}</li>
         {% endfor %}
-    </ul>
+    </ul> --->
 
 {% endblock %}
