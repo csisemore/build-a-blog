@@ -1,31 +1,40 @@
-#testing push crap from home.
 from flask import Flask, request, redirect, render_template
-import cgi
-import os
-import jinja2
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
+#import cgi
+import os
+import jinja2
 
+
+app = Flask(__name__)
+app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://build-a-blog:homer@localhost:8889/build-a-blog'
 app.config['SQLALCHEMY_ECHO'] = True
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#SQLALCHEMY_TRACK_MODIFICATIONS = False
 db = SQLAlchemy(app)
+
 
 template_dir = os.path.join(os.path.dirname(__file__), "templates")
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape=True)
 
-app = Flask(__name__)
-app.config['DEBUG'] = True
+#app = Flask(__name__)
+#app.config['DEBUG'] = True
 
 class Blog(db.Model):
 
     post_id = db.Column(db.Integer, primary_key=True)
     post_title = db.Column(db.String(120))
     post_body = db.Column(db.String(120))
-     = datetime.utcnow()
+    #post_date = datetime.utcnow()
     post_date = db.Column(db.DateTime)
 
-    def __init__(self, name):
-        self.name = name
+    #def __init__(self, name):
+        #self.name = name
+    def __init__(self, title, body, date ):
+        self.title = post_title 
+        self.body = post_body
+        self.date = datetime.utcnow()
 
 
 #@app.route('/', methods=['POST', 'GET'])
@@ -34,20 +43,36 @@ def index():
     template = jinja_env.get_template("blog.html")
     return template.render()
 
-@app.route('/',)
-
+@app.route('/blog', methods=['GET', 'POST'])
+def blog():
     if request.method == 'POST':
         post_name = request.form['post']
-        new_post = Post(post_name)
+        new_post = post(post_name)
         db.session.add(new_post)
         db.session.commit()
+    else:
+        ##posts = Blog.query.fetchall()
+        ##posts = Blog.fetchall()
+        posts = Blog.query.all()
+        ##completed_tasks = Task.query.filter_by(completed=True).all()
+        return render_template('blog.html',title="Blog Posts!",posts=posts) #completed_tasks=completed_tasks)
 
-    posts = Post.query.filter_by(completed=False).all()
-    completed_tasks = Post.query.filter_by(completed=True).all()
-    return render_template('posts.html',title="Get It Done!", 
-        posts=posts, completed_posts=completed_posts)
+
+@app.route('/new_post', methods=['POST'])
+def new_post():
+    template = jinja_env.get_template("new_post.html")
+    return template.render()
 
 
+if __name__ == '__main__':
+    app.run()
+    
+    #posts = Post.query.filter_by(completed=False).all()
+    #completed_tasks = Post.query.filter_by(completed=True).all()
+    #return render_template('posts.html',title="Get It Done!", 
+        #posts=posts, completed_posts=completed_posts)
+
+#return redirect('/')
 
 # TODO The /blog route displays all the blog posts.
 
