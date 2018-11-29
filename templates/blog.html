@@ -1,25 +1,19 @@
-{% extends "base.html" %}
+
+{% extends 'base.html' %}
 
 {% block content %}
-    <h1>Blog Posts</h1>
-    <form method='GET'>
-    <!--    <label>
-            Existing Posts:
-        </label>   -->
-            <ul>
-                {% for post in posts %}
-               <!-- <li>{{post.name}}-->
-                    <li>{{post_title}}
-                    <!-- <form method="POST" action="/delete-task" style="display:inline-block;">-->
-                        <form method = "GET"></form>
-                        <input type="hidden" name="post_id" value="{{post_id}}" />
-                       <!-- <input type="submit" value="Done!" />-->
-                    </form>
-                </li>
-                {% endfor %}
-            </ul>
+    
+<h1>Build a Blog</h1>
 
-        
-        <!--<input type="submit" value='Add Post' />-->
-    </form>
-{% endblock %}
+    <div>
+            {% for post in posts %}
+            <a href="./blog?id={{post.id}}"><h2>{{post.title}}</h2></a>
+            <p>{{ post.body }}</p>
+            <!--<p>{{ post.entry }}</p>-->
+            <p>{{ post.date }}</p>
+            <hr>
+            {% endfor %}
+    </div>
+    
+
+{% endblock %} 

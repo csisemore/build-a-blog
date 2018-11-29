@@ -1,46 +1,21 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block content %}
-    <h1>Add New Post</h1>
-    <form method='POST'>
-        <label for="post_title">
-            Post Title:<input id="post_title" type="text" value="{{post_title}}">
-        </label>
-        <label for="post_body">
-            Post Body:<input id="post_body" type="text" value="{{post_body}}">
-        </label>
-        <input type="hidden" name="post_id" value="{{post_id}}" />
-        <input type="submit" value='Add Post' />
-        
-        <!-- <input type="submit" value="Done!" /> --->
-    </form>
-    <hr />
+{% block content %}    
     
-   <!-- {% if posts|length == 0 %}
-    <p>No posts yet</p>
-    {% else %}
+    <h1>Add a Blog Entry</h1>
 
-        <ul>
-            {% for post in posts %}
-            <li>{{post.name}}
-                <form method="POST" action="/delete-task" style="display:inline-block;">
-                    <input type="hidden" name="post_id" value="{{post.id}}" />
-                    <input type="submit" value="Done!" />
-                </form>
-            </li>
-            {% endfor %}
-        </ul>
+    <form action="/newpost" method='POST'>
+        <label>
+            <span class="form_label">Blog Title:</span>
+            <input name="blog_title" type="text" value='{{post_title}}'>
+        </label>
+        <p class="error">{{title_error}} &nbsp;</p>
+        <label>
+            <span class="form_label">Blog Entry:</span>
+            <textarea name="blog_post" type="textarea" rows="12" cols="96">{{post_entry}}</textarea>
+        </label>
+        <p class="error">{{blog_entry_error}} &nbsp;</p>
+        <input class="submit" type="submit" value="Add Entry" />
+    </form>
 
-    {% endif %}
-
-    <hr />
-
-    <h2>Completed</h2>
-
-    <ul>
-        {% for task in completed_tasks %}
-        <li>{{task.name}}</li>
-        {% endfor %}
-    </ul> --->
-
-{% endblock %}
+{% endblock %}           
